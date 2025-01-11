@@ -176,7 +176,11 @@ public class form extends javax.swing.JFrame {
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
                 Bersih();
-            }
+            } 
+            
+            
+        } else {
+        
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
