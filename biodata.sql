@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Jan 2025 pada 06.51
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Generation Time: Jan 11, 2025 at 02:49 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,29 +18,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `biodata_mhs`
+-- Database: `biodata`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `biodata`
+-- Table structure for table `biodata`
 --
 
 CREATE TABLE `biodata` (
-  `nik` int(11) NOT NULL,
+  `NIK` int(50) NOT NULL,
   `nama` varchar(225) NOT NULL,
-  `telpon` int(11) NOT NULL,
+  `telpon` int(50) NOT NULL,
   `alamat` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `biodata`
+-- Dumping data for table `biodata`
 --
 
-INSERT INTO `biodata` (`nik`, `nama`, `telpon`, `alamat`) VALUES
+INSERT INTO `biodata` (`NIK`, `nama`, `telpon`, `alamat`) VALUES
 (50447786, 'Udin', 1112233, 'depok'),
-(51223344, 'Nemo', 11223344, 'jakarta');
+(51223344, 'Nemo', 11223344, 'jakarta'),
+(123553, 'adawda', 232543, 'adawda'),
+(123144411, 'abcdf', 1134322, 'adawda'),
+(122331, 'adada', 12131, 'adadawa');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
