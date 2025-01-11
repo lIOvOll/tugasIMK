@@ -6,15 +6,18 @@ package program;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 public class form extends javax.swing.JFrame {
     public Statement st;
     public ResultSet rs;
     Connection cn = koneksi.conn();
+    
     public form() {
         initComponents();
+        TampilData();
     }
+
 
     private void Bersih(){
         txtNIK.setText("");
@@ -22,6 +25,38 @@ public class form extends javax.swing.JFrame {
         txtTlp.setText("");
         txtAlm.setText("");
    }
+    private void TampilData(){
+        try{
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM biodata");
+            
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("no.");
+            model.addColumn("nik");
+            model.addColumn("nama");
+            model.addColumn("telpon");
+            model.addColumn("alamat");
+            
+            int no = 1;
+            
+            model.getDataVector().removeAllElements();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+            
+            while (rs.next()) {
+              Object[] data = {
+                    no ++,
+                  rs.getString("nik"),
+                  rs.getString("nama"),
+                  rs.getString("telpon"),
+                  rs.getString("alamat"),
+              };
+                model.addRow(data);
+                tblData.setModel(model);
+            }  
+        } catch (Exception e){
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
