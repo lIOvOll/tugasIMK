@@ -17,6 +17,53 @@ public class form extends javax.swing.JFrame {
         initComponents();
         TampilData();
     }
+    
+    private void CariData(){
+    try {
+        st = cn.createStatement();
+        
+        // Mendapatkan kolom yang dipilih untuk pencarian
+        String column = cmbCari.getSelectedItem().toString();
+        
+        // Menggunakan PreparedStatement untuk menghindari SQL Injection
+        String query = "SELECT * FROM biodata WHERE " + column + " LIKE ?";
+        PreparedStatement ps = cn.prepareStatement(query);
+        
+        // Menetapkan parameter pencarian dengan wildcard untuk LIKE
+        ps.setString(1, "%" + txtCari.getText() + "%");
+        
+        rs = ps.executeQuery();
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No.");
+        model.addColumn("NIK");
+        model.addColumn("Nama");
+        model.addColumn("Telepon");
+        model.addColumn("Alamat");
+
+        int no = 1;
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged();
+        
+        while (rs.next()) {
+            Object[] data = {
+                no++, 
+                rs.getString("nik"),
+                rs.getString("nama"),
+                rs.getString("telpon"),
+                rs.getString("alamat")
+            };
+            model.addRow(data);
+        }
+        
+        // Mengupdate data pada JTable
+        tblData.setModel(model);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+}
+    
     private void Bersih(){
         txtNIK.setText("");
         txtNama.setText("");
@@ -98,6 +145,11 @@ public class form extends javax.swing.JFrame {
         });
 
         btnBatal.setText("Batal");
+        btnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatalActionPerformed(evt);
+            }
+        });
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -120,6 +172,12 @@ public class form extends javax.swing.JFrame {
         jLabel5.setText("Cari Data");
 
         cmbCari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NIK", "nama" }));
+
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCariKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -272,6 +330,16 @@ public class form extends javax.swing.JFrame {
         txtNIK.setEditable(false);
         btnSimpan.setText("Ubah");
     }//GEN-LAST:event_tblDataMouseClicked
+
+    private void txtCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyPressed
+        CariData();
+    }//GEN-LAST:event_txtCariKeyPressed
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+        Bersih();
+        txtNIK.setEditable(true);  
+        btnSimpan.setText("Simpan"); 
+    }//GEN-LAST:event_btnBatalActionPerformed
 
     /**
      * @param args the command line arguments
