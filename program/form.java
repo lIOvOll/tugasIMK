@@ -17,8 +17,6 @@ public class form extends javax.swing.JFrame {
         initComponents();
         TampilData();
     }
-
-
     private void Bersih(){
         txtNIK.setText("");
         txtNama.setText("");
@@ -29,16 +27,13 @@ public class form extends javax.swing.JFrame {
         try{
             st = cn.createStatement();
             rs = st.executeQuery("SELECT * FROM biodata");
-            
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("no.");
             model.addColumn("nik");
             model.addColumn("nama");
             model.addColumn("telpon");
             model.addColumn("alamat");
-            
-            int no = 1;
-            
+            int no = 1;      
             model.getDataVector().removeAllElements();
             model.fireTableDataChanged();
             model.setRowCount(0);
@@ -244,8 +239,7 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-
-      try {
+       try {
         String nik = txtNIK.getText(); 
         if (nik.isEmpty()) {
             JOptionPane.showMessageDialog(this, "NIK tidak boleh kosong!");
@@ -271,12 +265,10 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
-
         txtNIK.setText(tblData.getValueAt(tblData.getSelectedRow(), 1).toString());
         txtNama.setText(tblData.getValueAt(tblData.getSelectedRow(), 2).toString());
         txtTlp.setText(tblData.getValueAt(tblData.getSelectedRow(), 3).toString());
         txtAlm.setText(tblData.getValueAt(tblData.getSelectedRow(), 4).toString());
-        
         txtNIK.setEditable(false);
         btnSimpan.setText("Ubah");
     }//GEN-LAST:event_tblDataMouseClicked
