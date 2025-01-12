@@ -238,12 +238,6 @@ public class form extends javax.swing.JFrame {
             Bersih();
             TampilData(); 
 =======
-                TampilData();
-            } 
-            
-            
-        } else {
-        
 >>>>>>> 3290f20547afeed543d66369ed20601389c5be45
         }
     } catch (Exception e) {
@@ -281,28 +275,6 @@ public class form extends javax.swing.JFrame {
 
     private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
 =======
-        // TODO add your handling code here:
-        if(txtNIK.getText() .equals("")){
-            JOptionPane.showMessageDialog(this,"Silahkan pilih data yang ingin dihapus !");
-        }else{
-            int jawab = JOptionPane.showConfirmDialog(null,"Data ini akan dihapus, lanjutkan ?","Konfirmasi", JOptionPane.YES_NO_OPTION);
-            if (jawab == 0) {
-                try{
-                    st = cn.createStatement();
-                    String sql = "DELETE FROM biodata WHERE NIK = '" + txtNIK.getText() + "'";
-                    st.executeUpdate(sql);
-                    JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
-                    TampilData();
-                    Bersih();
-                }catch (Exception e) {
-                     JOptionPane.showMessageDialog(null, e);
-                }
-            }
-        }
-    }//GEN-LAST:event_btnHapusActionPerformed
-
-    private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
-        // TODO add your handling code here:
 >>>>>>> 3290f20547afeed543d66369ed20601389c5be45
         txtNIK.setText(tblData.getValueAt(tblData.getSelectedRow(), 1).toString());
         txtNama.setText(tblData.getValueAt(tblData.getSelectedRow(), 2).toString());
