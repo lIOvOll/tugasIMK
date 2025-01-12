@@ -6,15 +6,18 @@ package program;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 public class form extends javax.swing.JFrame {
     public Statement st;
     public ResultSet rs;
     Connection cn = koneksi.conn();
+    
     public form() {
         initComponents();
+        TampilData();
     }
+
 
     private void Bersih(){
         txtNIK.setText("");
@@ -22,6 +25,38 @@ public class form extends javax.swing.JFrame {
         txtTlp.setText("");
         txtAlm.setText("");
    }
+    private void TampilData(){
+        try{
+            st = cn.createStatement();
+            rs = st.executeQuery("SELECT * FROM biodata");
+            
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("no.");
+            model.addColumn("nik");
+            model.addColumn("nama");
+            model.addColumn("telpon");
+            model.addColumn("alamat");
+            
+            int no = 1;
+            
+            model.getDataVector().removeAllElements();
+            model.fireTableDataChanged();
+            model.setRowCount(0);
+            
+            while (rs.next()) {
+              Object[] data = {
+                    no ++,
+                  rs.getString("nik"),
+                  rs.getString("nama"),
+                  rs.getString("telpon"),
+                  rs.getString("alamat"),
+              };
+                model.addRow(data);
+                tblData.setModel(model);
+            }  
+        } catch (Exception e){
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +96,11 @@ public class form extends javax.swing.JFrame {
         });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         btnBatal.setText("Batal");
 
@@ -75,6 +115,11 @@ public class form extends javax.swing.JFrame {
                 "NIK", "Nama Lengkap", "Telepon", "Alamat"
             }
         ));
+        tblData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDataMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblData);
 
         jLabel5.setText("Cari Data");
@@ -176,13 +221,69 @@ public class form extends javax.swing.JFrame {
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
                 Bersih();
-            }
+                TampilData();
+            } 
+            
+            
+        } else {
+                String sql = "UPDATE biodata SET Nama = ?, Telpon = ?, Alamat = ? WHERE NIK = ?";
+                PreparedStatement ps = cn.prepareStatement(sql);
+                ps.setString(1, txtNama.getText());
+                ps.setString(2, txtTlp.getText());
+                ps.setString(3, txtAlm.getText());
+                ps.setString(4, txtNIK.getText());
+
+                ps.executeUpdate();
+                ps.close();
+
+                JOptionPane.showMessageDialog(this, "Data berhasil diubah");
+                Bersih();
+                TampilData();
+           
+        
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         e.printStackTrace();
     }
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+     try {
+        String nik = txtNIK.getText(); // Ambil NIK dari inputan
+        if (nik.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NIK tidak boleh kosong!");
+            return;
+        }
+        String sql = "DELETE FROM biodata WHERE NIK = '" + nik + "'";
+
+    
+        st = cn.createStatement();
+        int rowsAffected = st.executeUpdate(sql);
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Data dengan NIK " + nik + " tidak ditemukan!");
+            System.out.println("Data tidak ditemukan.");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+        System.out.println("Error: " + e.getMessage());
+    }
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
+        txtNIK.setText(tblData.getValueAt(tblData.getSelectedRow(), 1).toString());
+        txtNama.setText(tblData.getValueAt(tblData.getSelectedRow(), 2).toString());
+        txtTlp.setText(tblData.getValueAt(tblData.getSelectedRow(), 3).toString());
+        txtAlm.setText(tblData.getValueAt(tblData.getSelectedRow(), 4).toString());
+        
+        txtNIK.setEditable(false);
+        btnSimpan.setText("Ubah");
+    }//GEN-LAST:event_tblDataMouseClicked
 
     /**
      * @param args the command line arguments
