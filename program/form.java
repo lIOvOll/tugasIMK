@@ -201,7 +201,7 @@ public class form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-         try {
+        try {
         st = cn.createStatement();
         if (txtNIK.getText().equals("") || txtTlp.getText().equals("") || txtNama.getText().equals("") || txtAlm.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Data Tidak boleh kosong ya", "Validasi Data", JOptionPane.INFORMATION_MESSAGE);
@@ -221,26 +221,21 @@ public class form extends javax.swing.JFrame {
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
                 Bersih();
-                TampilData();
+                TampilData(); 
             } 
-            
-            
         } else {
-                String sql = "UPDATE biodata SET Nama = ?, Telpon = ?, Alamat = ? WHERE NIK = ?";
-                PreparedStatement ps = cn.prepareStatement(sql);
-                ps.setString(1, txtNama.getText());
-                ps.setString(2, txtTlp.getText());
-                ps.setString(3, txtAlm.getText());
-                ps.setString(4, txtNIK.getText());
+            String sql = "UPDATE biodata SET Nama = ?, Telpon = ?, Alamat = ? WHERE NIK = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, txtNama.getText());
+            ps.setString(2, txtTlp.getText());
+            ps.setString(3, txtAlm.getText());
+            ps.setString(4, txtNIK.getText());
+            ps.executeUpdate();
+            ps.close();
 
-                ps.executeUpdate();
-                ps.close();
-
-                JOptionPane.showMessageDialog(this, "Data berhasil diubah");
-                Bersih();
-                TampilData();
-           
-        
+            JOptionPane.showMessageDialog(this, "Data berhasil diubah");
+            Bersih();
+            TampilData(); 
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
@@ -249,25 +244,24 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-     try {
-        String nik = txtNIK.getText(); // Ambil NIK dari inputan
+      try {
+        String nik = txtNIK.getText(); 
         if (nik.isEmpty()) {
             JOptionPane.showMessageDialog(this, "NIK tidak boleh kosong!");
             return;
         }
         String sql = "DELETE FROM biodata WHERE NIK = '" + nik + "'";
-
-    
         st = cn.createStatement();
         int rowsAffected = st.executeUpdate(sql);
 
         if (rowsAffected > 0) {
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+            Bersih(); 
+            TampilData(); 
         } else {
             JOptionPane.showMessageDialog(this, "Data dengan NIK " + nik + " tidak ditemukan!");
             System.out.println("Data tidak ditemukan.");
         }
-
     } catch (Exception e) {
         e.printStackTrace(); 
         JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
