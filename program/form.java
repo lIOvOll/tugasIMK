@@ -221,6 +221,7 @@ public class form extends javax.swing.JFrame {
                 st.executeUpdate(sql);
                 JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
                 Bersih();
+<<<<<<< HEAD
                 TampilData(); 
             } 
         } else {
@@ -236,6 +237,14 @@ public class form extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Data berhasil diubah");
             Bersih();
             TampilData(); 
+=======
+                TampilData();
+            } 
+            
+            
+        } else {
+        
+>>>>>>> 3290f20547afeed543d66369ed20601389c5be45
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
@@ -244,6 +253,7 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+<<<<<<< HEAD
       try {
         String nik = txtNIK.getText(); 
         if (nik.isEmpty()) {
@@ -270,6 +280,30 @@ public class form extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
+=======
+        // TODO add your handling code here:
+        if(txtNIK.getText() .equals("")){
+            JOptionPane.showMessageDialog(this,"Silahkan pilih data yang ingin dihapus !");
+        }else{
+            int jawab = JOptionPane.showConfirmDialog(null,"Data ini akan dihapus, lanjutkan ?","Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (jawab == 0) {
+                try{
+                    st = cn.createStatement();
+                    String sql = "DELETE FROM biodata WHERE NIK = '" + txtNIK.getText() + "'";
+                    st.executeUpdate(sql);
+                    JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+                    TampilData();
+                    Bersih();
+                }catch (Exception e) {
+                     JOptionPane.showMessageDialog(null, e);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
+        // TODO add your handling code here:
+>>>>>>> 3290f20547afeed543d66369ed20601389c5be45
         txtNIK.setText(tblData.getValueAt(tblData.getSelectedRow(), 1).toString());
         txtNama.setText(tblData.getValueAt(tblData.getSelectedRow(), 2).toString());
         txtTlp.setText(tblData.getValueAt(tblData.getSelectedRow(), 3).toString());
